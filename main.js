@@ -38,7 +38,7 @@ $(document).ready(function() {
   function doCalculations (groupData) {
     if (groupData.group == "planet") {
       var planetData = new Planet(groupData);
-
+      $("#message").html(JSON.stringify(planetData));
     }
   }
 
@@ -46,13 +46,11 @@ $(document).ready(function() {
   // The Meat & Potatoes calculations
   function Planet (data) {
     if (data.planetRadius != 0) {
+      this.diameter = (data.planetRadius*2);
       this.surfaceArea = (4*Math.PI*Math.pow(data.planetRadius, 2)).toFixed(2);
       this.volume = ((4/3)*Math.PI*Math.pow(data.planetRadius, 3)).toFixed(2);
-
+      this.circumference = (2*Math.PI*data.planetRadius);
     }
-    this.radius = data.planetRadius;
-    this.circumference = data.planetCircumference;
-    this.diameter = data.planetDiameter;
   }
 
 });
