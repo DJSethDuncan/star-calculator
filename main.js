@@ -9,8 +9,13 @@ $(document).ready(function() {
       // iterate over every item in the same group
       $("form ."+group).each(function(index) {
 
+        // set the label
         var label = $(this).attr("name");
+
+        // set the value
         var value = $(this).val();
+
+        // make sure the value isn't null
         if (!value) { value="0"; }
 
         // create an object with all values inside the same group that was triggered
@@ -22,6 +27,7 @@ $(document).ready(function() {
         });
       });
 
+      // put the currently-used group name in the object
       groupData.group = group;
 
       // pass the data along
