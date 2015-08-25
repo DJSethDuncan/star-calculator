@@ -34,19 +34,25 @@ $(document).ready(function() {
       doCalculations(groupData);
   });
 
-});
 
-function doCalculations (groupData) {
-  if (groupData.group == "planet") {
-    var planetData = new Planet(groupData);
-    console.log(planetData);
+  function doCalculations (groupData) {
+    if (groupData.group == "planet") {
+      var planetData = new Planet(groupData);
+
+    }
   }
-}
 
 
-// The Meat & Potatoes calculations
-function Planet (data) {
-  this.radius = data.planetRadius;
-  this.circumference = data.planetCircumference;
-  this.diameter = data.planetDiameter;
-}
+  // The Meat & Potatoes calculations
+  function Planet (data) {
+    if (data.planetRadius != 0) {
+      this.surfaceArea = (4*Math.PI*Math.pow(data.planetRadius, 2)).toFixed(2);
+      this.volume = ((4/3)*Math.PI*Math.pow(data.planetRadius, 3)).toFixed(2);
+
+    }
+    this.radius = data.planetRadius;
+    this.circumference = data.planetCircumference;
+    this.diameter = data.planetDiameter;
+  }
+
+});
