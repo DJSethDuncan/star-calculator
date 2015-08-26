@@ -6,7 +6,9 @@ http://sethduncan.com/dev/star-calculator/
 
 ### Status ###
 
-* It's ugly, but functional. Entering a value (ex. 6371 for near-Earth radius) in the Radius form field returns values in a <ul> that are calculated off the given value. Adding a Mass value (ex. 60000000000000000000000000 for near-Earth mass) will return the force of gravity in m/s^2 as well as the g-force related to Earth gravity.
+* It's ugly, but functional.
+* Entering a value (ex. 6371 for near-Earth radius) in the Radius form field returns values in a <ul> that are calculated off the given value.
+* Adding a Mass value (ex. 60000000000000000000000000 for near-Earth mass) will return the force of gravity in m/s^2 as well as the g-force related to Earth gravity.
 * Shows distance to Mercury, Venus, and Mars. Polls this data on page-load.
 
 ### To-do List ###
