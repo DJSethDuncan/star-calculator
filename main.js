@@ -5,7 +5,7 @@ $(document).ready(function() {
   var wichitaLon = "-97.3361";
   var nasaAPIKey = "xiTgDdCaqdv7NW7aTB7bby3D7424Rgl9w09y0diN";
   var imageryURL = "https://api.nasa.gov/planetary/earth/imagery?lat="+wichitaLat+"&lon="+wichitaLon+"&cloudscore=true&api_key="+nasaAPIKey+"&format=JSON";
-  var planetaryStatesURL = "http://www.astro-phys.com/api/de406/states?bodies=mercury,venus,earth,mars"
+  var planetaryStatesURL = "http://www.astro-phys.com/api/de406/states?bodies=mercury,venus,earth,moon,mars"
 
   // imagery for given location
   $.ajax({
@@ -23,6 +23,7 @@ $(document).ready(function() {
     var mercury = new Object();
     var venus = new Object();
     var earth = new Object();
+    var moon = new Object();
     var mars = new Object();
 
     mercury.x = data.results.mercury[0][0];
@@ -34,15 +35,20 @@ $(document).ready(function() {
     earth.x = data.results.earth[0][0];
     earth.y = data.results.earth[0][1];
     earth.z = data.results.earth[0][2];
+    moon.x = data.results.moon[0][0];
+    moon.y = data.results.moon[0][1];
+    moon.z = data.results.moon[0][2];
     mars.x = data.results.mars[0][0];
     mars.y = data.results.mars[0][1];
     mars.z = data.results.mars[0][2];
 
     var distanceToMercury = distanceBetween(earth, mercury);
     var distanceToVenus = distanceBetween(earth, venus);
+    var distanceToMoon = distanceBetween(earth, moon);
     var distanceToMars = distanceBetween(earth, mars);
     $("#distanceToMercury").html("Mercury: "+distanceToMercury);
     $("#distanceToVenus").html("Venus: "+distanceToVenus);
+    $("#distanceToMoon").html("Moon: "+distanceToMoon);
     $("#distanceToMars").html("Mars: "+distanceToMars);
   });
 
