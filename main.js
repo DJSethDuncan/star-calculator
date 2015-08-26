@@ -44,8 +44,17 @@ $(document).ready(function() {
 
   function doCalculations (groupData) {
     if (groupData.group == "planet") {
+      // reset result div to empty state
+      $("#resultList").html("");
+
       var planetData = new Planet(groupData);
-      $("#message").html(JSON.stringify(planetData));
+      
+      // send results to result div
+      // $("#message").html(JSON.stringify(planetData));
+      $.each(planetData, function(key,val) { 
+          var planetData = $("#message").html();
+          $("#resultList").append("<li>"+key+": "+val+"</li>");
+      });
     }
   }
 
