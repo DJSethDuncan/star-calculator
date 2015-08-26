@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+<<<<<<< HEAD
   /* misc NASA stuff, not urgent */
   var wichitaLat = "37.6889";
   var wichitaLon = "-97.3361";
@@ -46,6 +47,15 @@ $(document).ready(function() {
     $("#distanceToMars").html("Mars: "+distanceToMars);
   });
 
+=======
+  // Constants
+
+  var G = 6.674*Math.pow(10, -11);
+  var earthMass = 5.98*Math.pow(10, 24);
+  var earthRadius = 6.38*Math.pow(10, 6);
+  var earthGravity = 9.8;
+  
+>>>>>>> 836ce2cb900ab929c4069d7acdb184645a70d5fb
   // auto-calculate and populate all related form fields when possible
   $('form input').blur(function () {
 
@@ -95,20 +105,39 @@ $(document).ready(function() {
 
   function doCalculations (groupData) {
     if (groupData.group == "planet") {
+      // reset result div to empty state
+      $("#resultList").html("");
+
       var planetData = new Planet(groupData);
-      $("#message").html(JSON.stringify(planetData));
+      
+      // send results to result div
+      // $("#message").html(JSON.stringify(planetData));
+      $.each(planetData, function(key,val) { 
+          var planetData = $("#message").html();
+          $("#resultList").append("<li>"+key+": "+val+"</li>");
+      });
     }
   }
 
 
   // The Meat & Potatoes calculations
   function Planet (data) {
+
+    // size calculations
     if (data.planetRadius != 0) {
       this.diameter = (data.planetRadius*2);
       this.surfaceArea = (4*Math.PI*Math.pow(data.planetRadius, 2)).toFixed(2);
       this.volume = ((4/3)*Math.PI*Math.pow(data.planetRadius, 3)).toFixed(2);
       this.circumference = (2*Math.PI*data.planetRadius);
     }
+
+    // gravity calculations
+    if (data.planetRadius != 0 && data.planetMass != 0) {
+      var planetRadiusMeters = data.planetRadius*1000;
+      this.gravity = (((G*data.planetMass)/Math.pow(planetRadiusMeters, 2)).toFixed(2));
+      this.comparativeGravity = (this.gravity/earthGravity).toFixed(2);
+    }
   }
+
 
 });
