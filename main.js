@@ -50,7 +50,7 @@ $(document).ready(function() {
 
   var G = 6.674*Math.pow(10, -11);
   var earthMass = 5.98*Math.pow(10, 24);
-  var earthRadius = 6.38*Math.pow(10, 6);
+  var earthRadius = 6.371*Math.pow(10, 6); // in meters
   var earthGravity = 9.8;
 
   // auto-calculate and populate all related form fields when possible
@@ -126,6 +126,7 @@ $(document).ready(function() {
       this.surfaceArea = (4*Math.PI*Math.pow(data.planetRadius, 2)).toFixed(2);
       this.volume = ((4/3)*Math.PI*Math.pow(data.planetRadius, 3)).toFixed(2);
       this.circumference = (2*Math.PI*data.planetRadius);
+      this.comparativeSize = (((data.planetRadius/(earthRadius/1000))*100)).toFixed(2)+"% Earth's Size";
     }
 
     // gravity calculations
