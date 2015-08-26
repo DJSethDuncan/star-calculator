@@ -52,6 +52,8 @@ $(document).ready(function() {
 
   // The Meat & Potatoes calculations
   function Planet (data) {
+
+    // size calculations
     if (data.planetRadius != 0) {
       this.diameter = (data.planetRadius*2);
       this.surfaceArea = (4*Math.PI*Math.pow(data.planetRadius, 2)).toFixed(2);
@@ -59,6 +61,7 @@ $(document).ready(function() {
       this.circumference = (2*Math.PI*data.planetRadius);
     }
 
+    // gravity calculations
     if (data.planetRadius != 0 && data.planetMass != 0) {
       var planetRadiusMeters = data.planetRadius*1000;
       this.gravity = (((G*data.planetMass)/Math.pow(planetRadiusMeters, 2)).toFixed(2));
