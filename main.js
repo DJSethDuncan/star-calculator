@@ -1,6 +1,5 @@
 $(document).ready(function() {
 
-<<<<<<< HEAD
   /* misc NASA stuff, not urgent */
   var wichitaLat = "37.6889";
   var wichitaLon = "-97.3361";
@@ -47,15 +46,13 @@ $(document).ready(function() {
     $("#distanceToMars").html("Mars: "+distanceToMars);
   });
 
-=======
   // Constants
 
   var G = 6.674*Math.pow(10, -11);
   var earthMass = 5.98*Math.pow(10, 24);
   var earthRadius = 6.38*Math.pow(10, 6);
   var earthGravity = 9.8;
-  
->>>>>>> 836ce2cb900ab929c4069d7acdb184645a70d5fb
+
   // auto-calculate and populate all related form fields when possible
   $('form input').blur(function () {
 
@@ -109,10 +106,10 @@ $(document).ready(function() {
       $("#resultList").html("");
 
       var planetData = new Planet(groupData);
-      
+
       // send results to result div
       // $("#message").html(JSON.stringify(planetData));
-      $.each(planetData, function(key,val) { 
+      $.each(planetData, function(key,val) {
           var planetData = $("#message").html();
           $("#resultList").append("<li>"+key+": "+val+"</li>");
       });
