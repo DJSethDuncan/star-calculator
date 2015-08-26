@@ -5,17 +5,26 @@
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
-    <center><p id="message"></p></center>
     <h1>Star Calculator</h1>
 
     <h2>Planets</h2>
     <form>
+
+      <label for="planetRadius">Radius (km)</label>
       <input type="text" class="planet" data-group="planet" name="planetRadius" placeholder="Radius" />
+
+      <label for="planetCircumference">Circumference (km)</label>
       <input type="text" class="planet" data-group="planet" name="planetCircumference" placeholder="Circumference" />
+
+      <label for="planetDiameter">Diameter (km)</label>
       <input type="text" class="planet" data-group="planet" name="planetDiameter" placeholder="Diameter" />
 
+      <label for="planetMass">Mass (kg)</label>
+      <input type="text" class="planet" data-group="planet" name="planetMass" placeholder="Mass" />
 
     </form>
+    
+    <p id="message"></p>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="main.js"></script>
