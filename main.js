@@ -1,6 +1,20 @@
 $(document).ready(function() {
 
+  /* misc NASA stuff, not urgent */
+  var wichitaLat = "37.6889";
+  var wichitaLon = "-97.3361";
+  var apiKey = "xiTgDdCaqdv7NW7aTB7bby3D7424Rgl9w09y0diN";
+  var imageryURL = "https://api.nasa.gov/planetary/earth/imagery?lat="+wichitaLat+"&lon="+wichitaLon+"&cloudscore=true&api_key="+apiKey+"&format=JSON";
   var planetaryStatesURL = "http://www.astro-phys.com/api/de406/states?bodies=mercury,venus,earth,mars"
+
+  // imagery for given location
+  $.ajax({
+    url: imageryURL,
+    success: function(data) { /* console.log(data); */ }
+  }).done(function(data) {
+    // writes a link to the image
+    // $("#landsat").attr("href", data.url);
+  });
 
   $.ajax({
     url: planetaryStatesURL,
