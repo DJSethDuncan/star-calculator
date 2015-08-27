@@ -1,13 +1,29 @@
 $(document).ready(function() {
 
-  /* misc NASA stuff, not urgent */
+  // ************************ //
+  // CONSTANT VARIABLES       //
+  // ************************ //
+
+  var G = 6.674*Math.pow(10, -11);
+  var earthMass = 5.98*Math.pow(10, 24);
+  var earthRadius = 6.371*Math.pow(10, 6); // in meters
+  var earthGravity = 9.8;
+
+  // LANDSAT
   var wichitaLat = "37.6889";
   var wichitaLon = "-97.3361";
   var nasaAPIKey = "xiTgDdCaqdv7NW7aTB7bby3D7424Rgl9w09y0diN";
   var imageryURL = "https://api.nasa.gov/planetary/earth/imagery?lat="+wichitaLat+"&lon="+wichitaLon+"&cloudscore=true&api_key="+nasaAPIKey+"&format=JSON";
-  var planetaryStatesURL = "http://www.astro-phys.com/api/de406/states?bodies=mercury,venus,earth,moon,mars,jupiter,saturn,uranus,neptune,pluto"
 
-  // imagery for given location
+  // CELESTIAL BODIES
+  var getCelestialBodies = "mercury,venus,earth,moon,mars,jupiter,saturn,uranus,neptune,pluto";
+  var celestialBodyAPI = "http://www.astro-phys.com/api/de406/states?bodies="+getCelestialBodies;
+
+  // ************************ //
+  // AJAX FUNCTIONS           //
+  // ************************ //
+
+  // get LANDSAT imagery for given location
   $.ajax({
     url: imageryURL,
     success: function(data) { /* console.log(data); */ }
@@ -16,8 +32,9 @@ $(document).ready(function() {
     // $("#landsat").attr("href", data.url);
   });
 
+  // get celestial body locations
   $.ajax({
-    url: planetaryStatesURL,
+    url: celestialBodyAPI,
     success: function(data) { console.log("success"); }
   }).done(function(data) {
 
@@ -56,13 +73,6 @@ $(document).ready(function() {
 
   });
 
-  // Constants
-
-  var G = 6.674*Math.pow(10, -11);
-  var earthMass = 5.98*Math.pow(10, 24);
-  var earthRadius = 6.371*Math.pow(10, 6); // in meters
-  var earthGravity = 9.8;
-
   // auto-calculate and populate all related form fields when possible
   $('form input').blur(function () {
 
@@ -90,12 +100,17 @@ $(document).ready(function() {
         });
       });
 
-      // put the currently-used group name in the object
+      // put the currently-used data-group attribute name in the object
       groupData.group = group;
 
-      // pass the data along
+      // initiate the function that processes and writes the calculation results
       doCalculations(groupData);
   });
+
+
+  // ************************ //
+  // CUSTOM FUNCTIONS         //
+  // ************************ //
 
   // get distance between points
   // each point should be an object with x, y, z values
@@ -110,21 +125,22 @@ $(document).ready(function() {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
+  // do planet calculations
   function doCalculations (groupData) {
     if (groupData.group == "planet") {
-      // reset result div to empty state
+      // reset result div to empty state every time it updates
       $("#resultList").html("");
 
+      // create a new Planet object using the groupData
       var planetData = new Planet(groupData);
 
-      // send results to result div
+      // send results to result div for display
       $.each(planetData, function(key,val) {
           var planetData = $("#message").html();
           $("#resultList").append("<li>"+key+": "+val+"</li>");
       });
     }
   }
-
 
   // The Meat & Potatoes calculations
   function Planet (data) {
@@ -143,6 +159,7 @@ $(document).ready(function() {
       var expArray = data.planetMass.split(/x|\^|\*/);
       var planetMass;
 
+      // if array has multiple values, someone has used exponential notations (triggered by x, ^, or *)
       if (expArray[1]) {
         planetMass = expArray[0]*Math.pow(expArray[1], expArray[2]);
       } else {
