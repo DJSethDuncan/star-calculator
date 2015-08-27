@@ -118,7 +118,6 @@ $(document).ready(function() {
       var planetData = new Planet(groupData);
 
       // send results to result div
-      // $("#message").html(JSON.stringify(planetData));
       $.each(planetData, function(key,val) {
           var planetData = $("#message").html();
           $("#resultList").append("<li>"+key+": "+val+"</li>");
@@ -135,14 +134,23 @@ $(document).ready(function() {
       this.diameter = (data.planetRadius*2);
       this.surfaceArea = (4*Math.PI*Math.pow(data.planetRadius, 2)).toFixed(2);
       this.volume = ((4/3)*Math.PI*Math.pow(data.planetRadius, 3)).toFixed(2);
-      this.circumference = (2*Math.PI*data.planetRadius);
-      this.comparativeSize = (((data.planetRadius/(earthRadius/1000))*100)).toFixed(2)+"% Earth's Size";
+      this.circumference = ((2*Math.PI*data.planetRadius)).toFixed(2);
+      this.comparativeSize = (((data.planetRadius/(earthRadius/1000))*100)).toFixed(2);
     }
 
     // gravity calculations
     if (data.planetRadius != 0 && data.planetMass != 0) {
+      var expArray = data.planetMass.split(/x|\^|\*/);
+      var planetMass;
+
+      if (expArray[1]) {
+        planetMass = expArray[0]*Math.pow(expArray[1], expArray[2]);
+      } else {
+        planetMass = expArray[0];
+      }
+
       var planetRadiusMeters = data.planetRadius*1000;
-      this.gravity = (((G*data.planetMass)/Math.pow(planetRadiusMeters, 2)).toFixed(2));
+      this.gravity = (((G*planetMass)/Math.pow(planetRadiusMeters, 2)).toFixed(2));
       this.comparativeGravity = (this.gravity/earthGravity).toFixed(2);
     }
   }
