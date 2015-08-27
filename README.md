@@ -13,8 +13,6 @@ http://sethduncan.com/dev/star-calculator/
 
 ### To-do List ###
 
-* Figure out a way to handle exponential notation for big numbers
-* Use bootstrap (or something) to make it pretty
 * Create a "slide mode" to rotate through slides with interesting data (for display purposes)
 * Add a slider for "radius"?
 * Add tooltips with suggested values (i.e. "Here are some example radii for reference: ******)
