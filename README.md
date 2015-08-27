@@ -6,9 +6,9 @@ http://sethduncan.com/dev/star-calculator/
 
 ### Status ###
 
-* Entering a radius value returns a list of other values that can be calculated from the radius of a sphere.
-* Adding a mass value will return the force of gravity in m/s^2 as well as the g-force related to Earth gravity.
-* Shows distance to the other major celestial bodies in the solar system. Polls this data on page-load.
+* Entering a radius returns a list of other values that can be calculated from the radius.
+* Entering mass will return the force of gravity in m/s^2 as well as the Earth-relative g-force.
+* Shows distance to the other major bodies in the solar system. Polls this data on page-load.
 
 ### To-do List ###
 
@@ -17,6 +17,7 @@ http://sethduncan.com/dev/star-calculator/
 * Add a slider for "radius"?
 * Add buttons for each planet measurement field to auto-fill that field with the value for a specific planet
 * Find more APIs with interesting data (solar data, satellite data, etc)
+* Sort planet results by solar-system order (MVEmMJSUNp)
 
 ### Setup ###
 
