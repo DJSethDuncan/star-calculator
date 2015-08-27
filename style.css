@@ -12,3 +12,17 @@ body {
 form input { display:block; }
 
 h1, h2, h3 { margin:0; }
+
+ul, ol { padding:0; }
+li { list-style-type:none; margin:0; padding:0; text-transform:capitalize; }
+
+.text-center { text-align:center; }
+
+.margin-vert-20 { margin-top:20px; margin-bottom:20px; }
+.margin-top-20 { margin-top:20px; }
+.margin-bottom-20 { margin-bottom:20px; }
+.capitalize { text-decoration:capitalize; }
+
+.container-fluid {
+  max-width:800px;
+}
