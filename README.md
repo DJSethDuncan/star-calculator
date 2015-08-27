@@ -12,6 +12,7 @@ http://sethduncan.com/dev/star-calculator/
 
 ### To-do List ###
 
+* Get planet math into its own function and out of .blur() -- makes it easier to trigger it whenever we need it rather than ONLY on .blur()
 * Create a "slide mode" to rotate through slides with interesting data (for display purposes)
 * Add a slider for "radius"?
 * Add tooltips with suggested values (i.e. "Here are some example radii for reference: ******)
