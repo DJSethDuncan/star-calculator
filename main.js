@@ -74,9 +74,11 @@ $(document).ready(function() {
   });
 
   // auto-calculate and populate all related form fields when possible
-  $('form input').blur(function () {
+  $('form input').blur(function () { initPlanetData(this); });
 
-      var group = $(this).data("group");
+  function initPlanetData (selector) {
+
+      var group = $(selector).data("group");
       var groupData = {};
 
       // iterate over every item in the same group
@@ -105,7 +107,7 @@ $(document).ready(function() {
 
       // initiate the function that processes and writes the calculation results
       doCalculations(groupData);
-  });
+  }
 
 
   // ************************ //
