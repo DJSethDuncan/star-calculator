@@ -67,7 +67,6 @@ $(document).ready(function() {
     // write each celestial body distance to an <li>
     $.each(celestialBodies, function(label) {
       if (label != "earth") {
-        // $("#distances").append("<li id="+label+">"+label+": "+celestialBodies[label].distanceToEarth+"</li>");
         $("#"+label).html(label+": "+celestialBodies[label].distanceToEarth);
       }
     });
