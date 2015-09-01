@@ -144,6 +144,13 @@ $(document).ready(function() {
     }
   }
 
+  // Conversions
+
+  function MiKm (miles, kilometers) {
+    if (miles) { return miles/0.62137; }
+    if (kilometers) { return kilometers*0.62137; }
+  }
+
   // The Meat & Potatoes calculations
   function Planet (data) {
 
