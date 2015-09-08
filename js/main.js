@@ -8,6 +8,7 @@ $(document).ready(function() {
   var earthMass = 5.98*Math.pow(10, 24);
   var earthRadius = 6.371*Math.pow(10, 6); // in meters
   var earthGravity = 9.8;
+  var now = Math.floor(Date.now() / 1000);
 
   // LANDSAT
   var wichitaLat = "37.6889";
@@ -18,6 +19,14 @@ $(document).ready(function() {
   // CELESTIAL BODIES
   var getCelestialBodies = "mercury,venus,earth,moon,mars,jupiter,saturn,uranus,neptune,pluto";
   var celestialBodyAPI = "http://www.astro-phys.com/api/de406/states?bodies="+getCelestialBodies;
+
+  // ISS
+  var issInfo = "https://api.wheretheiss.at/v1/satellites/25544/positions?timestamps="+now+"&units=miles";
+  var issLoc = "https://api.wheretheiss.at/v1/coordinates/"+wichitaLat+","+wichitaLon;
+
+  // GEOCODING
+  var googleAPIKey = "AIzaSyDE9hSVHPASnbC3FoDbBgNf6yIQSJyVR-4";
+  var reverseGeocode = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+wichitaLat+","+wichitaLon;
 
   // ************************ //
   // AJAX FUNCTIONS           //
@@ -71,6 +80,14 @@ $(document).ready(function() {
       }
     });
 
+  });
+
+  // Get the ISS current location 
+  $.ajax({
+    url: issInfo,
+    success: function(data) { console.log("iss success"); }
+  }).done(function(data) {
+    console.log(data);
   });
 
   // auto-calculate and populate all related form fields when possible
@@ -151,6 +168,13 @@ $(document).ready(function() {
           $("#resultList").append("<li>"+key+": "+val+"</li>");
       });
     }
+  }
+
+  // Conversions
+
+  function MiKm (miles, kilometers) {
+    if (miles) { return miles/0.62137; }
+    if (kilometers) { return kilometers*0.62137; }
   }
 
   // The Meat & Potatoes calculations
