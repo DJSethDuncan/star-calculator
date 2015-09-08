@@ -31,7 +31,13 @@
 
             <div class="form-group">
               <label for="planetRadius">Radius (km)</label>
-              <input type="text" class="planet form-control" data-group="planet" name="planetRadius" placeholder="Radius" />
+              <div>
+                <ul class="planetAutofill">
+                  <li class="earth">earth</li>
+                  <li class="mars">mars</li>
+                </ul>
+              </div>
+              <input type="text" id="radiusInput" class="planet form-control" data-group="planet" name="planetRadius" placeholder="Radius" />
               <p class="text-muted"><em>Earth: 6371, Mars: 3389.28</em></p>
             </div>
 

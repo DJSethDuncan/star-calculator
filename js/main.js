@@ -109,6 +109,15 @@ $(document).ready(function() {
       doCalculations(groupData);
   }
 
+  // ************************ //
+  // jQuery FUNCTIONS         //
+  // ************************ //
+
+  $(".planetAutofill > li").click(function(){
+    if ($(this).hasClass("earth")) { $("#radiusInput").val("6371"); }
+    if ($(this).hasClass("mars")) { $("#radiusInput").val("3389.28"); }
+  })
+
 
   // ************************ //
   // CUSTOM FUNCTIONS         //

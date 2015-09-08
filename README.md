@@ -19,7 +19,6 @@ http://sethduncan.com/dev/star-calculator/
 * Add a slider for "radius"?
 * Add buttons for each planet measurement field to auto-fill that field with the value for a specific planet
 * Find more APIs with interesting data (solar data, satellite data, etc)
-* Sort planet results by solar-system order (MVEmMJSUNp)
 
 ### Setup ###
 

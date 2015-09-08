@@ -26,3 +26,5 @@ li { list-style-type:none; margin:0; padding:0; text-transform:capitalize; }
 .container-fluid {
   max-width:800px;
 }
+
+.planetAutofill li { cursor:pointer; }
