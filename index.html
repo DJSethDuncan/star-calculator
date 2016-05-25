@@ -63,30 +63,16 @@
 
             <div class="form-group">
               <label for="planetRadius">Radius (km)</label>
-              <div>
-                <ul class="planetAutofill">
-                  <li class="earth">earth</li>
-                  <li class="mars">mars</li>
-                </ul>
-              </div>
-              <input type="text" id="radiusInput" class="planet form-control" data-group="planet" name="planetRadius" placeholder="Radius" />
+              <!-- <input type="text" id="radiusInput" class="planet form-control" data-group="planet" name="planetRadius" placeholder="Radius" /> -->
               <p class="text-muted"><em>Earth: 6371, Mars: 3389.28</em></p>
+							<input type="range" id="radiusInput" class="planet" data-group="planet" name="planetRadius" value="50" min="1000" max="150000">
+							<span id="radiusDisplay"></span>
             </div>
 
             <div class="form-group">
               <label for="planetMass">Mass (kg)</label>
               <input type="text" class="planet form-control" data-group="planet" name="planetMass" placeholder="Mass" />
               <p class="text-muted"><em>Earth: 5.972×10^24, Mars 6.39x10^23</em></p>
-            </div>
-
-            <div class="form-group">
-              <label for="planetCircumference">Circumference (km)</label>
-              <input type="text" class="planet form-control" data-group="planet" name="planetCircumference" placeholder="Circumference" />
-            </div>
-
-            <div class="form-group">
-              <label for="planetDiameter">Diameter (km)</label>
-              <input type="text" class="planet form-control" data-group="planet" name="planetDiameter" placeholder="Diameter" />
             </div>
 
           </form>

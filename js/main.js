@@ -4,11 +4,6 @@ $(document).ready(function() {
   // DEFINE jQuery FUNCTIONS  //
   // ************************ //
 
-  // automatically populate fields with planet-specific details
-  $(".planetAutofill > li").click(function(){
-    if ($(this).hasClass("earth")) { $("#radiusInput").val("6371"); }
-    if ($(this).hasClass("mars")) { $("#radiusInput").val("3389.28"); }
-  })
 
   $(".nav li").click(function(){
     var launchTab = $(this).attr("data-tab");
@@ -17,6 +12,21 @@ $(document).ready(function() {
     $(".tabContent").addClass("hidden");
     $("."+launchTab).removeClass("hidden");
   })
+
+	// auto-calculate and populate all related form fields when possible
+	$('form input').on('change', function () { initPlanetData(this); });
+
+	$('#radiusInput').on('change', function () {
+		$('#radiusDisplay').html($(this).val());
+	});
+
+	$("#radiusInput").bind("slider:changed", function (event, data) {
+  	// The currently selected value of the slider
+	  alert(data.value);
+
+	  // The value as a ratio of the slider (between 0 and 1)
+	  alert(data.ratio);
+	});
 
 
   // ************************ //
@@ -110,9 +120,6 @@ $(document).ready(function() {
   }).done(function(data) {
     console.log(data);
   });
-
-  // auto-calculate and populate all related form fields when possible
-  $('form input').blur(function () { initPlanetData(this); });
 
   function initPlanetData (selector) {
 
