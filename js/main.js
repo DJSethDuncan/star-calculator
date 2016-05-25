@@ -20,15 +20,6 @@ $(document).ready(function() {
 		$('#radiusDisplay').html($(this).val());
 	});
 
-	$("#radiusInput").bind("slider:changed", function (event, data) {
-  	// The currently selected value of the slider
-	  alert(data.value);
-
-	  // The value as a ratio of the slider (between 0 and 1)
-	  alert(data.ratio);
-	});
-
-
   // ************************ //
   // DEFINTE CONSTANT VARS    //
   // ************************ //
