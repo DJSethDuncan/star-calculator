@@ -1,7 +1,26 @@
 $(document).ready(function() {
 
   // ************************ //
-  // CONSTANT VARIABLES       //
+  // DEFINE jQuery FUNCTIONS  //
+  // ************************ //
+
+  // automatically populate fields with planet-specific details
+  $(".planetAutofill > li").click(function(){
+    if ($(this).hasClass("earth")) { $("#radiusInput").val("6371"); }
+    if ($(this).hasClass("mars")) { $("#radiusInput").val("3389.28"); }
+  })
+
+  $(".nav li").click(function(){
+    var launchTab = $(this).attr("data-tab");
+    $(".nav li").removeClass("active");
+    $(this).addClass("active");
+    $(".tabContent").addClass("hidden");
+    $("."+launchTab).removeClass("hidden");
+  })
+
+
+  // ************************ //
+  // DEFINTE CONSTANT VARS    //
   // ************************ //
 
   var G = 6.674*Math.pow(10, -11);
