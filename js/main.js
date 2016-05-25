@@ -1,7 +1,26 @@
 $(document).ready(function() {
 
   // ************************ //
-  // CONSTANT VARIABLES       //
+  // DEFINE jQuery FUNCTIONS  //
+  // ************************ //
+
+  // automatically populate fields with planet-specific details
+  $(".planetAutofill > li").click(function(){
+    if ($(this).hasClass("earth")) { $("#radiusInput").val("6371"); }
+    if ($(this).hasClass("mars")) { $("#radiusInput").val("3389.28"); }
+  })
+
+  $(".nav li").click(function(){
+    var launchTab = $(this).attr("data-tab");
+    $(".nav li").removeClass("active");
+    $(this).addClass("active");
+    $(".tabContent").addClass("hidden");
+    $("."+launchTab).removeClass("hidden");
+  })
+
+
+  // ************************ //
+  // DEFINTE CONSTANT VARS    //
   // ************************ //
 
   var G = 6.674*Math.pow(10, -11);
@@ -28,6 +47,8 @@ $(document).ready(function() {
   var googleAPIKey = "AIzaSyDE9hSVHPASnbC3FoDbBgNf6yIQSJyVR-4";
   var reverseGeocode = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+wichitaLat+","+wichitaLon;
 
+  init();
+
   // ************************ //
   // AJAX FUNCTIONS           //
   // ************************ //
@@ -42,47 +63,47 @@ $(document).ready(function() {
   });
 
   // get celestial body locations
-  $.ajax({
-    url: celestialBodyAPI,
-    success: function(data) { console.log("success"); }
-  }).done(function(data) {
+  function getPlanetaryDistances () {
+    $.ajax({
+      url: celestialBodyAPI,
+      success: function(data) { console.log("success"); }
+    }).done(function(data) {
 
-    // set reference point for comparison to other planets
-    // later on this should be able to be chosen
-    var earth = {
-      x : data.results.earth[0][0],
-      y : data.results.earth[0][1],
-      z : data.results.earth[0][2]
-    }
-
-    // create the object
-    var celestialBodies = {};
-
-    // add each body returned from the API to the celestialBodies object
-    $.each(data.results, function(label) {
-      var thisBody = {
-        x: data.results[label][0][0],
-        y: data.results[label][0][1],
-        z: data.results[label][0][2]
+      // set reference point for comparison to other planets
+      // later on this should be able to be chosen
+      var earth = {
+        x : data.results.earth[0][0],
+        y : data.results.earth[0][1],
+        z : data.results.earth[0][2]
       }
-      // calculate the distance between this body and earth (our reference point)
-      distance = distanceBetween(thisBody, earth);
-      // add the distance to this body's object
-      thisBody.distanceToEarth = distance;
-      // add this body's object to the celestialBodies object
-      celestialBodies[label] = thisBody;
+
+      // create the object
+      var celestialBodies = {};
+
+      // add each body returned from the API to the celestialBodies object
+      $.each(data.results, function(label) {
+        var thisBody = {
+          x: data.results[label][0][0],
+          y: data.results[label][0][1],
+          z: data.results[label][0][2]
+        }
+        // calculate the distance between this body and earth (our reference point)
+        thisBody.distanceToEarth = distanceBetween(thisBody, earth);
+        // add this body's object to the celestialBodies object
+        celestialBodies[label] = thisBody;
+      });
+
+      // write each celestial body distance to an <li>
+      $.each(celestialBodies, function(label) {
+        if (label != "earth") {
+          $("#"+label).html("<span class='planetLabel'>"+label+"</span> <span class='planetDistance'>"+celestialBodies[label].distanceToEarth+"</span>");
+        }
+      });
+
     });
+  }
 
-    // write each celestial body distance to an <li>
-    $.each(celestialBodies, function(label) {
-      if (label != "earth") {
-        $("#"+label).html(label+": "+celestialBodies[label].distanceToEarth);
-      }
-    });
-
-  });
-
-  // Get the ISS current location 
+  // Get the ISS current location
   $.ajax({
     url: issInfo,
     success: function(data) { console.log("iss success"); }
@@ -127,18 +148,18 @@ $(document).ready(function() {
   }
 
   // ************************ //
-  // jQuery FUNCTIONS         //
+  // DEFINE CUSTOM FUNCTIONS  //
   // ************************ //
 
-  $(".planetAutofill > li").click(function(){
-    if ($(this).hasClass("earth")) { $("#radiusInput").val("6371"); }
-    if ($(this).hasClass("mars")) { $("#radiusInput").val("3389.28"); }
-  })
+  function init() {
 
+    getPlanetaryDistances();
 
-  // ************************ //
-  // CUSTOM FUNCTIONS         //
-  // ************************ //
+    window.setInterval(function(){
+      getPlanetaryDistances();
+    }, 5000);
+
+  }
 
   // get distance between points
   // each point should be an object with x, y, z values
