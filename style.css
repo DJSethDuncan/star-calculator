@@ -28,3 +28,19 @@ li { list-style-type:none; margin:0; padding:0; text-transform:capitalize; }
 }
 
 .planetAutofill li { cursor:pointer; }
+
+#distances li {
+  padding:2px 5px;
+  font-size:1.5em;
+}
+
+#distances li:nth-child(even) {background: #FFF}
+#distances li:nth-child(odd) {background: #EEE}
+
+.planetLabel {
+  font-weight:600;
+}
+
+.planetDistance {
+  float:right;
+}
