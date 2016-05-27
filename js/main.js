@@ -196,10 +196,24 @@ $(document).ready(function() {
     if (kilometers) { return kilometers*0.62137; }
   }
 
+  function sciNoteToArray (sciNoteValue) {
+    var expArray = sciNoteValue.split(/x|\^|\*/);
+    var array;
+
+    // if array has multiple values, someone has used exponential notations (triggered by x, ^, or *)
+    if (expArray[1]) {
+      array = expArray[0]*Math.pow(expArray[1], expArray[2]);
+    } else {
+      array = expArray[0];
+    }
+
+    return array;
+
+  }
+
   // The Meat & Potatoes calculations
   function Planet (data) {
 
-    // size calculations
     if (data.planetRadius != 0) {
       this.diameter = (data.planetRadius*2);
       this.surfaceArea = (4*Math.PI*Math.pow(data.planetRadius, 2)).toFixed(2);
@@ -208,18 +222,14 @@ $(document).ready(function() {
       this.comparativeSize = (((data.planetRadius/(earthRadius/1000))*100)).toFixed(2);
     }
 
-    // gravity calculations
+    if (this.volume != 0 && data.planetMass != 0) {
+      var planetMass = sciNoteToArray(data.planetMass);
+      this.density = planetMass/this.volume;
+
+    }
+
     if (data.planetRadius != 0 && data.planetMass != 0) {
-      var expArray = data.planetMass.split(/x|\^|\*/);
-      var planetMass;
-
-      // if array has multiple values, someone has used exponential notations (triggered by x, ^, or *)
-      if (expArray[1]) {
-        planetMass = expArray[0]*Math.pow(expArray[1], expArray[2]);
-      } else {
-        planetMass = expArray[0];
-      }
-
+      var planetMass = sciNoteToArray(data.planetMass);
       var planetRadiusMeters = data.planetRadius*1000;
       this.gravity = (((G*planetMass)/Math.pow(planetRadiusMeters, 2)).toFixed(2));
       this.comparativeGravity = (this.gravity/earthGravity).toFixed(2);
