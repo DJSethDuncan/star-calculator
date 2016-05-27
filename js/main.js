@@ -13,12 +13,12 @@ $(document).ready(function() {
     $("."+launchTab).removeClass("hidden");
   })
 
-	// auto-calculate and populate all related form fields when possible
-	$('form input').on('change', function () { initPlanetData(this); });
+  // auto-calculate and populate all related form fields when possible
+  $('form input').on('change', function () { initPlanetData(this); });
 
-	$('#radiusInput').on('change', function () {
-		$('#radiusDisplay').html($(this).val());
-	});
+  $('#radiusInput').on('change', function () {
+    $('#radiusDisplay').html($(this).val());
+  });
 
   // ************************ //
   // DEFINTE CONSTANT VARS    //
@@ -196,18 +196,19 @@ $(document).ready(function() {
     if (kilometers) { return kilometers*0.62137; }
   }
 
-  function sciNoteToArray (sciNoteValue) {
+  // convert scientific notation to a real value for maths
+  function sciNoteToValue (sciNoteValue) {
     var expArray = sciNoteValue.split(/x|\^|\*/);
-    var array;
+    var value;
 
     // if array has multiple values, someone has used exponential notations (triggered by x, ^, or *)
     if (expArray[1]) {
-      array = expArray[0]*Math.pow(expArray[1], expArray[2]);
+      value = expArray[0]*Math.pow(expArray[1], expArray[2]);
     } else {
-      array = expArray[0];
+      value = expArray[0];
     }
 
-    return array;
+    return value;
 
   }
 
