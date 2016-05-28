@@ -230,7 +230,7 @@ $(document).ready(function() {
       this.volume = {
         'label': 'Volume',
         'value': ((4/3)*Math.PI*Math.pow(data.planetRadius, 3)).toFixed(2),
-        'unit': 'cu. km' 
+        'unit': 'cu. km'
       }
       this.circumference = {
         'label': 'Circumference',
@@ -247,7 +247,7 @@ $(document).ready(function() {
     if (this.volume.value != 0 && data.planetMass != 0) {
       var planetMass = sciNoteToValue(data.planetMass);
       this.density = {
-        'label': 'Mass',
+        'label': 'Density',
         'value': planetMass/this.volume.value,
         'unit': 'idklol'
       }
