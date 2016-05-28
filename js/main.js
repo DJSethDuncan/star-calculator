@@ -218,7 +218,7 @@ $(document).ready(function() {
 
     if (data.planetRadius != 0) {
       this.diameter = {
-        'label': 'Radius',
+        'label': 'Diameter',
         'value': data.planetRadius*2,
         'unit': 'km'
       }
