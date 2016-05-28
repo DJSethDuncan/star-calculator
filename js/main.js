@@ -182,10 +182,11 @@ $(document).ready(function() {
       var planetData = new Planet(groupData);
 
       // send results to result div for display
-      $.each(planetData, function(key,val) {
-          var planetData = $("#message").html();
-          $("#resultList").append("<li>"+key+": "+val+"</li>");
+      $.each(planetData, function(object, attribute) {
+        var planetData = $("#message").html();
+        $("#resultList").append("<li>"+attribute.label+": "+attribute.value+" "+attribute.unit+"</li>");
       });
+
     }
   }
 
@@ -216,24 +217,55 @@ $(document).ready(function() {
   function Planet (data) {
 
     if (data.planetRadius != 0) {
-      this.diameter = (data.planetRadius*2);
-      this.surfaceArea = (4*Math.PI*Math.pow(data.planetRadius, 2)).toFixed(2);
-      this.volume = ((4/3)*Math.PI*Math.pow(data.planetRadius, 3)).toFixed(2);
-      this.circumference = ((2*Math.PI*data.planetRadius)).toFixed(2);
-      this.comparativeSize = (((data.planetRadius/(earthRadius/1000))*100)).toFixed(2);
+      this.diameter = {
+        'label': 'Radius',
+        'value': data.planetRadius*2,
+        'unit': 'km'
+      }
+      this.surfaceArea = {
+        'label': 'Surface Area',
+        'value': (4*Math.PI*Math.pow(data.planetRadius, 2)).toFixed(2),
+        'unit': 'sq. km'
+      }
+      this.volume = {
+        'label': 'Volume',
+        'value': ((4/3)*Math.PI*Math.pow(data.planetRadius, 3)).toFixed(2),
+        'unit': 'cu. km' 
+      }
+      this.circumference = {
+        'label': 'Circumference',
+        'value': (2*Math.PI*data.planetRadius).toFixed(2),
+        'unit': 'km'
+      }
+      this.comparativeSize = {
+        'label': 'Size as % of Earth',
+        'value': (((data.planetRadius/(earthRadius/1000))*100)).toFixed(2),
+        'unit': '%'
+      }
     }
 
     if (this.volume != 0 && data.planetMass != 0) {
-      var planetMass = sciNoteToArray(data.planetMass);
-      this.density = planetMass/this.volume;
-
+      var planetMass = sciNoteToValue(data.planetMass);
+      this.density = {
+        'label': 'Mass',
+        'value': planetMass/this.volume,
+        'unit': 'idklol'
+      }
     }
 
     if (data.planetRadius != 0 && data.planetMass != 0) {
-      var planetMass = sciNoteToArray(data.planetMass);
+      var planetMass = sciNoteToValue(data.planetMass);
       var planetRadiusMeters = data.planetRadius*1000;
-      this.gravity = (((G*planetMass)/Math.pow(planetRadiusMeters, 2)).toFixed(2));
-      this.comparativeGravity = (this.gravity/earthGravity).toFixed(2);
+      this.gravity = {
+        'label': 'Gravity',
+        'value': (((G*planetMass)/Math.pow(planetRadiusMeters, 2)).toFixed(2)),
+        'unit': 'm/s'
+      }
+      this.comparativeGravity = {
+        'label': 'Gravity as % of Earth',
+        'value': (this.gravity/earthGravity).toFixed(2),
+        'unit': '%'
+      }
     }
   }
 
