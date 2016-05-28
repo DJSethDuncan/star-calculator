@@ -244,11 +244,11 @@ $(document).ready(function() {
       }
     }
 
-    if (this.volume != 0 && data.planetMass != 0) {
+    if (this.volume.value != 0 && data.planetMass != 0) {
       var planetMass = sciNoteToValue(data.planetMass);
       this.density = {
         'label': 'Mass',
-        'value': planetMass/this.volume,
+        'value': planetMass/this.volume.value,
         'unit': 'idklol'
       }
     }
@@ -263,7 +263,7 @@ $(document).ready(function() {
       }
       this.comparativeGravity = {
         'label': 'Gravity as % of Earth',
-        'value': (this.gravity/earthGravity).toFixed(2),
+        'value': ((this.gravity.value/earthGravity)*100).toFixed(2),
         'unit': '%'
       }
     }
