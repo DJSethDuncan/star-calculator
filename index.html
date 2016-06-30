@@ -24,6 +24,7 @@
         <ul class="nav nav-tabs">
           <li class="active" data-tab="planetInfo"><a href="#">The Planets</a></li>
           <li data-tab="planetBuilder"><a href="#">Planet Builder</a></li>
+          <li data-tab="ISS"><a href="#">ISS Information</a></li>
         </ul>
 
       </div>
@@ -35,7 +36,7 @@
 
           <h2 class="margin-bottom-20">Distances From Earth</h2>
 
-          <ul id="distances">
+          <ul id="distances" class="dataTable">
             <li id="mercury"></li>
             <li id="venus"></li>
             <li id="moon"></li>
@@ -87,6 +88,18 @@
 
         </div>
 
+      </div>
+
+      <!-- ISS INFO -->
+      <div class="row tabContent ISS hidden">
+        <div class="col-sm-6 col-xs-12">
+          <h2 class="margin-bottom-20">ISS Info</h2>
+
+          <ul id="issInfo" class="dataTable">
+            <li id="altitude"></li>
+            <li id="velocity"></li>
+          </ul>
+        </div>
       </div>
 
     </div> <!-- .container -->

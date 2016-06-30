@@ -67,7 +67,7 @@ $(document).ready(function() {
   function getPlanetaryDistances () {
     $.ajax({
       url: celestialBodyAPI,
-      success: function(data) { console.log("success"); }
+      success: function(data) { }
     }).done(function(data) {
 
       // set reference point for comparison to other planets
@@ -105,12 +105,26 @@ $(document).ready(function() {
   }
 
   // Get the ISS current location
-  $.ajax({
-    url: issInfo,
-    success: function(data) { console.log("iss success"); }
-  }).done(function(data) {
-    console.log(data);
-  });
+  function initISSData () {
+
+    var issData = {};
+
+    $.ajax({
+      url: issInfo,
+      success: function(data) {}
+    }).done(function(data) {
+      issData = data[0];
+      $("#altitude").html("Altitude: "+issData.altitude.toFixed(1)+" miles");
+      $("#velocity").html("Velocity: "+issData.velocity.toFixed(0)+" mph");
+    });
+
+    // velocity
+    // altitude
+    // latitude
+    // longitude
+
+
+  }
 
   function initPlanetData (selector) {
 
@@ -152,9 +166,12 @@ $(document).ready(function() {
   function init() {
 
     getPlanetaryDistances();
+    initISSData();
+
 
     window.setInterval(function(){
       getPlanetaryDistances();
+      initISSData();
     }, 5000);
 
   }
