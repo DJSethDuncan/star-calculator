@@ -55,13 +55,32 @@ $(document).ready(function() {
   // ************************ //
 
   // get LANDSAT imagery for given location
-  $.ajax({
-    url: imageryURL,
-    success: function(data) { /* console.log(data); */ }
-  }).done(function(data) {
-    // writes a link to the image
-    // $("#landsat").attr("href", data.url);
-  });
+  function getLANDSAT (lat, lon) {
+    $.ajax({
+      url: "https://api.nasa.gov/planetary/earth/imagery?lat="+lat+"&lon="+lon+"&cloudscore=true&api_key="+nasaAPIKey+"&format=JSON",
+      success: function(data) { }
+    }).done(function(data) {
+      $("#locationImage").html("Landsat Image <img style='max-width:100%;' src='"+data.url+"' />");
+    });
+  }
+
+  function getGeoCode (lat, lon) {
+
+    var locationGeocode = {};
+
+    $.ajax({
+      //url: "https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lon,
+      url: "https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lon,
+      success: function(data) { /* console.log(data); */ }
+    }).done(function(data) {
+      if (data.status == "ZERO_RESULTS") {
+      $("#location").html("Over Sea");
+      } else {
+        locationGeocode = data.results[0];
+        $("#location").html("Over "+locationGeocode.formatted_address);
+      }
+    });
+  }
 
   // get celestial body locations
   function getPlanetaryDistances () {
@@ -116,6 +135,8 @@ $(document).ready(function() {
       issData = data[0];
       $("#altitude").html("Altitude: "+issData.altitude.toFixed(1)+" miles");
       $("#velocity").html("Velocity: "+issData.velocity.toFixed(0)+" mph");
+      getGeoCode(lat=issData.latitude, lon=issData.longitude);
+      getLANDSAT(lat=issData.latitude, lon=issData.longitude);
     });
 
     // velocity
@@ -168,11 +189,13 @@ $(document).ready(function() {
     getPlanetaryDistances();
     initISSData();
 
-
     window.setInterval(function(){
       getPlanetaryDistances();
-      initISSData();
     }, 5000);
+
+    window.setInterval(function(){
+      initISSData();
+    }, 30000);
 
   }
 
