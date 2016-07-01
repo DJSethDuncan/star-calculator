@@ -60,7 +60,14 @@ $(document).ready(function() {
       url: "https://api.nasa.gov/planetary/earth/imagery?lat="+lat+"&lon="+lon+"&cloudscore=true&api_key="+nasaAPIKey+"&format=JSON",
       success: function(data) { }
     }).done(function(data) {
-      $("#locationImage").html("Landsat Image <img style='max-width:100%;' src='"+data.url+"' />");
+
+      if (data.error) {
+        $("#locationImage").html("Landsat Image Unavailable");
+      } else {
+        $("#locationImage").html("Landsat Image <img style='max-width:100%;' src='"+data.url+"' />");
+      }
+
+    }).fail(function() {
     });
   }
 
@@ -138,12 +145,6 @@ $(document).ready(function() {
       getGeoCode(lat=issData.latitude, lon=issData.longitude);
       getLANDSAT(lat=issData.latitude, lon=issData.longitude);
     });
-
-    // velocity
-    // altitude
-    // latitude
-    // longitude
-
 
   }
 
