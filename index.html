@@ -64,22 +64,50 @@
 					<div class="col-sm-4"></div>
 				</div>
 
-				<div class="row">
-					<div id="liveVelocityms" class="col-sm-4 text-center"></div>
-					<div id="liveVelocitymph" class="col-sm-4 text-center"></div>
-					<div id="liveMass" class="col-sm-4 text-center"></div>
+				<div id="telemetry" style="display:none;">
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="panel panel-primary text-center">
+								<div class="panel-heading">Velocity</div>
+								<div id="liveVelocity" class="panel-body"></div>
+							</div>
+						</div>
+
+						<div class="col-sm-4">
+							<div class="panel panel-primary text-center">
+								<div class="panel-heading">Altitude</div>
+								<div id="liveAltitude" class="panel-body"></div>
+							</div>
+						</div>
+
+						<div class="col-sm-4">
+							<div class="panel panel-primary text-center">
+								<div class="panel-heading">Acceleration</div>
+								<div id="liveAcceleration" class="panel-body"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row" style="margin-bottom:25px;">
+						<div class="col-sm-4">
+							<div class="panel panel-primary text-center">
+								<div class="panel-heading">Mass</div>
+								<div id="liveMass" class="panel-body"></div>
+							</div>
+						</div>
+						<div class="col-sm-4"></div>
+						<div class="col-sm-4">
+							<div class="panel panel-primary text-center">
+								<div class="panel-heading">Fuel Remaining</div>
+								<div id="livePercentFuelRemaining" class="panel-body"></div>
+							</div>
+						</div>
+					</div>
 				</div>
 
-				<div class="row" style="margin-bottom:25px;">
-					<div id="liveAcceleration" class="col-sm-4 text-center"></div>
-					<div id="liveGForce" class="col-sm-4 text-center"></div>
-					<div id="livePercentFuelRemaining" class="col-sm-4 text-center"></div>
-				</div>
-
-				<div id="container"></div>
-
-				<div id="rocketDetails">
-
+				<div id="charts" style="display:none;">
+					<div id="altitudeChart"></div>
+					<div id="velocityChart"></div>
 				</div>
 
 			</div>
