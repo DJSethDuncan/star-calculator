@@ -66,48 +66,49 @@
 
 				<div id="telemetry" style="display:none;">
 					<div class="row">
-						<div class="col-sm-4">
+						<div class="col-sm-12">
 							<div class="panel panel-primary text-center">
-								<div class="panel-heading">Velocity</div>
-								<div id="liveVelocity" class="panel-body"></div>
+								<div class="panel-heading">Details</div>
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th class="text-center">Acceleration</th>
+											<th class="text-center">Altitude</th>
+											<th class="text-center">Mass</th>
+										</tr>
+									</thead>
+									<tr>
+										<td><div id="liveAcceleration" class="panel-body"></div></td>
+										<td><div id="liveAltitude" class="panel-body"></div></td>
+										<td><div id="liveMass" class="panel-body"></div></td>
+									</tr>
+								</table>
 							</div>
 						</div>
+					</div>
 
+					<div class="row">
 						<div class="col-sm-4">
-							<div class="panel panel-primary text-center">
-								<div class="panel-heading">Altitude</div>
-								<div id="liveAltitude" class="panel-body"></div>
-							</div>
+							<div id="velocityDial" style="max-height:250px;"></div>
+							<div id="fuelDial" style="max-height:250px;"></div>
 						</div>
 
-						<div class="col-sm-4">
+						<div class="col-sm-8">
 							<div class="panel panel-primary text-center">
-								<div class="panel-heading">Acceleration</div>
-								<div id="liveAcceleration" class="panel-body"></div>
+								<div class="panel-heading">Graphs</div>
+								<table>
+									<tr>
+										<td>Altitude</td>
+										<div id="altitudeChart"></div>
+									</tr>
+								</table>
 							</div>
 						</div>
 					</div>
 
-					<div class="row" style="margin-bottom:25px;">
-						<div class="col-sm-4">
-							<div class="panel panel-primary text-center">
-								<div class="panel-heading">Mass</div>
-								<div id="liveMass" class="panel-body"></div>
-							</div>
-						</div>
-						<div class="col-sm-4"></div>
-						<div class="col-sm-4">
-							<div class="panel panel-primary text-center">
-								<div class="panel-heading">Fuel Remaining</div>
-								<div id="livePercentFuelRemaining" class="panel-body"></div>
-							</div>
-						</div>
-					</div>
 				</div>
 
 				<div id="charts" style="display:none;">
-					<div id="altitudeChart"></div>
-					<div id="velocityChart"></div>
 				</div>
 
 			</div>
@@ -170,8 +171,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <!-- <script src="js/highcharts.js"></script> -->
 		<script src="https://code.highcharts.com/highcharts.js"></script>
-		<script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="js/main.js"></script>
+		<script src="https://code.highcharts.com/highcharts.js"></script>
+		<script src="https://code.highcharts.com/highcharts-more.js"></script>
+		<script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+
+		<script src="js/main.js"></script>
 		<script src="js/rocket.js"></script>
 
   </body>

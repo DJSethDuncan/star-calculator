@@ -5,6 +5,172 @@ $('#launchRocket').click(function() {
 	rocket.launch();
 });
 
+var velocityGaugeOptions = {
+
+    chart: {
+        type: 'solidgauge'
+    },
+
+    title: null,
+
+    pane: {
+        center: ['50%', '40%'],
+        size: '85%',
+        startAngle: -90,
+        endAngle: 90,
+        background: {
+            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+            innerRadius: '60%',
+            outerRadius: '100%',
+            shape: 'arc'
+        }
+    },
+
+    tooltip: {
+        enabled: false
+    },
+
+    // the value axis
+    yAxis: {
+        stops: [
+            [0.1, '#55BF3B'], // green
+            [0.5, '#DDDF0D'], // yellow
+            [0.9, '#DF5353'] // red
+        ],
+        lineWidth: 0,
+        minorTickInterval: null,
+        tickAmount: 2,
+        title: {
+            y: -70
+        },
+        labels: {
+            y: 16
+        }
+    },
+
+    plotOptions: {
+        solidgauge: {
+            dataLabels: {
+                y: 5,
+                borderWidth: 0,
+                useHTML: true
+            }
+        }
+    }
+};
+
+var fuelGaugeOptions = {
+
+    chart: {
+        type: 'solidgauge'
+    },
+
+    title: null,
+
+    pane: {
+        center: ['50%', '40%'],
+        size: '85%',
+        startAngle: -90,
+        endAngle: 90,
+        background: {
+            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+            innerRadius: '60%',
+            outerRadius: '100%',
+            shape: 'arc'
+        }
+    },
+
+    tooltip: {
+        enabled: false
+    },
+
+    // the value axis
+    yAxis: {
+        stops: [
+            [0.9, '#55BF3B'], // green
+            [0.5, '#DDDF0D'], // yellow
+            [0.1, '#DF5353'] // red
+        ],
+        lineWidth: 0,
+        minorTickInterval: null,
+        tickAmount: 2,
+        title: {
+            y: -70
+        },
+        labels: {
+            y: 16
+        }
+    },
+
+    plotOptions: {
+        solidgauge: {
+            dataLabels: {
+                y: 5,
+                borderWidth: 0,
+                useHTML: true
+            }
+        }
+    }
+};
+
+
+// The speed gauge
+var velocityDial = new Highcharts.chart('velocityDial', Highcharts.merge(velocityGaugeOptions, {
+    yAxis: {
+        min: 0,
+        max: 3000,
+        title: {
+            text: 'Velocity'
+        }
+    },
+
+    credits: {
+        enabled: false
+    },
+
+    series: [{
+        name: 'Velocity',
+        data: [0],
+        dataLabels: {
+            format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+                ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y:.2f}</span><br/>' +
+                   '<span style="font-size:12px;color:silver">m/s</span></div>'
+        },
+        tooltip: {
+            valueSuffix: ' m/s'
+        }
+    }]
+
+}));
+
+// The fuel gauge
+var fuelDial = new Highcharts.chart('fuelDial', Highcharts.merge(fuelGaugeOptions, {
+    yAxis: {
+        min: 0,
+        max: 100,
+        title: {
+            text: 'Remaining Fuel'
+        }
+    },
+
+    credits: {
+        enabled: false
+    },
+
+    series: [{
+        name: 'Fuel',
+        data: [100],
+        dataLabels: {
+            format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+                ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y:.2f}</span><br/>' +
+                   '<span style="font-size:12px;color:silver">%</span></div>'
+        },
+        tooltip: {
+            valueSuffix: ' %'
+        }
+    }]
+
+}));
 
 var altitudeChart = new Highcharts.chart('altitudeChart', {
 	title: {
@@ -37,42 +203,6 @@ var altitudeChart = new Highcharts.chart('altitudeChart', {
 	},
 	series: [{
 		name: 'Altitude',
-		data: [],
-		showInLegend: false
-	}]
-});
-
-var velocityChart = new Highcharts.chart('velocityChart', {
-	title: {
-		text: 'Velocity'
-	},
-  yAxis: {
-		title: {
-			text: "Velocity (m/s)"
-		},
-		labels: {
-			style: {
-				color: Highcharts.getOptions().colors[1]
-			}
-		}
-	},
-	xAxis: {
-		title: {
-			text: "Time (sec)"
-		}
-	},
-	plotOptions: {
-		line: {
-			marker: {
-				enabled: false
-			}
-		},
-		series: {
-			pointStart: 0
-		}
-	},
-	series: [{
-		name: 'Velocity',
 		data: [],
 		showInLegend: false
 	}]
@@ -135,15 +265,15 @@ class Rocket {
 				velocity = flightTime * thisRocket.acceleration(activeMass);
 				altitude += velocity;
 				prettyVelocity = velocity.toFixed(2);
-				percentFuelRemaining = ((100-(((thisRocket.burnRate() * flightTime)/thisRocket.propellantMass)*100).toFixed(1)).toFixed(1));
+				percentFuelRemaining = (100-(((thisRocket.burnRate() * flightTime)/thisRocket.propellantMass)*100));
 				gForce = (1 + (thisRocket.acceleration(activeMass))/9.8).toFixed(1);
 
 				altitudeChart.series[0].addPoint(altitude);
-				velocityChart.series[0].addPoint(velocity);
-				$('#liveVelocity').html(velocity.toFixed(2) + " m/s<br />" + (velocity*2.23694).toFixed(2) + " mph");
+				velocityDial.series[0].points[0].update(velocity);
+				fuelDial.series[0].points[0].update(percentFuelRemaining);
+
 				$('#liveMass').html(activeMass.toFixed(2) + " kg");
 				$('#liveAltitude').html(altitude.toFixed(1) + " m<br />" + (altitude*3.28084).toFixed(1) + " ft");
-				$('#livePercentFuelRemaining').html(percentFuelRemaining + "%");
 				$('#liveAcceleration').html((thisRocket.acceleration(activeMass)).toFixed(1) + " m/s<br />" + gForce + "g");
 				flightTime++;
 			}
