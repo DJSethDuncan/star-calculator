@@ -24,6 +24,7 @@
 
         <ul class="nav nav-tabs">
           <li class="active" data-tab="planetInfo"><a href="#">The Planets</a></li>
+					<li data-tab="rocket"><a href="#">Rockets</a></li>
           <li data-tab="planetBuilder"><a href="#">Planet Builder</a></li>
           <li data-tab="ISS"><a href="#">ISS Information</a></li>
         </ul>
@@ -52,6 +53,36 @@
         </div>
 
       </div>
+
+			<!-- ROCKET STUFF -->
+			<div class="row tabContent rocket hidden">
+				<div class="row" style="margin-bottom:25px;">
+					<div class="col-sm-4"></div>
+					<div class="col-sm-4 text-center">
+						<button id="launchRocket" class="btn btn-danger">Launch</button>
+					</div>
+					<div class="col-sm-4"></div>
+				</div>
+
+				<div class="row">
+					<div id="liveVelocityms" class="col-sm-4 text-center"></div>
+					<div id="liveVelocitymph" class="col-sm-4 text-center"></div>
+					<div id="liveMass" class="col-sm-4 text-center"></div>
+				</div>
+
+				<div class="row" style="margin-bottom:25px;">
+					<div id="liveAcceleration" class="col-sm-4 text-center"></div>
+					<div id="liveGForce" class="col-sm-4 text-center"></div>
+					<div id="livePercentFuelRemaining" class="col-sm-4 text-center"></div>
+				</div>
+
+				<div id="container"></div>
+
+				<div id="rocketDetails">
+
+				</div>
+
+			</div>
 
       <!-- PLANET BUILDER -->
       <div class="row tabContent planetBuilder hidden">
@@ -109,8 +140,11 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="js/highcharts.js"></script>
+    <!-- <script src="js/highcharts.js"></script> -->
+		<script src="https://code.highcharts.com/highcharts.js"></script>
+		<script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="js/main.js"></script>
+		<script src="js/rocket.js"></script>
 
   </body>
 </html>
