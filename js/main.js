@@ -13,12 +13,12 @@ $(document).ready(function() {
     $("."+launchTab).removeClass("hidden");
   })
 
-	// auto-calculate and populate all related form fields when possible
-	$('form input').on('change', function () { initPlanetData(this); });
+  // auto-calculate and populate all related form fields when possible
+  $('form input').on('change', function () { initPlanetData(this); });
 
-	$('#radiusInput').on('change', function () {
-		$('#radiusDisplay').html($(this).val());
-	});
+  $('#radiusInput').on('change', function () {
+    $('#radiusDisplay').html($(this).val());
+  });
 
   // ************************ //
   // DEFINTE CONSTANT VARS    //
@@ -55,19 +55,45 @@ $(document).ready(function() {
   // ************************ //
 
   // get LANDSAT imagery for given location
-  $.ajax({
-    url: imageryURL,
-    success: function(data) { /* console.log(data); */ }
-  }).done(function(data) {
-    // writes a link to the image
-    // $("#landsat").attr("href", data.url);
-  });
+  function getLANDSAT (lat, lon) {
+    $.ajax({
+      url: "https://api.nasa.gov/planetary/earth/imagery?lat="+lat+"&lon="+lon+"&cloudscore=true&api_key="+nasaAPIKey+"&format=JSON",
+      success: function(data) { }
+    }).done(function(data) {
+
+      if (data.error) {
+        $("#locationImage").html("Landsat Image Unavailable");
+      } else {
+        $("#locationImage").html("Landsat Image <img style='max-width:100%;' src='"+data.url+"' />");
+      }
+
+    }).fail(function() {
+    });
+  }
+
+  function getGeoCode (lat, lon) {
+
+    var locationGeocode = {};
+
+    $.ajax({
+      //url: "https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lon,
+      url: "https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lon,
+      success: function(data) { /* console.log(data); */ }
+    }).done(function(data) {
+      if (data.status == "ZERO_RESULTS") {
+      $("#location").html("Over Sea");
+      } else {
+        locationGeocode = data.results[0];
+        $("#location").html("Over "+locationGeocode.formatted_address);
+      }
+    });
+  }
 
   // get celestial body locations
   function getPlanetaryDistances () {
     $.ajax({
       url: celestialBodyAPI,
-      success: function(data) { console.log("success"); }
+      success: function(data) { }
     }).done(function(data) {
 
       // set reference point for comparison to other planets
@@ -105,12 +131,22 @@ $(document).ready(function() {
   }
 
   // Get the ISS current location
-  $.ajax({
-    url: issInfo,
-    success: function(data) { console.log("iss success"); }
-  }).done(function(data) {
-    console.log(data);
-  });
+  function initISSData () {
+
+    var issData = {};
+
+    $.ajax({
+      url: issInfo,
+      success: function(data) {}
+    }).done(function(data) {
+      issData = data[0];
+      $("#altitude").html("Altitude: "+issData.altitude.toFixed(1)+" miles");
+      $("#velocity").html("Velocity: "+issData.velocity.toFixed(0)+" mph");
+      getGeoCode(lat=issData.latitude, lon=issData.longitude);
+      getLANDSAT(lat=issData.latitude, lon=issData.longitude);
+    });
+
+  }
 
   function initPlanetData (selector) {
 
@@ -152,10 +188,15 @@ $(document).ready(function() {
   function init() {
 
     getPlanetaryDistances();
+    initISSData();
 
     window.setInterval(function(){
       getPlanetaryDistances();
     }, 5000);
+
+    window.setInterval(function(){
+      initISSData();
+    }, 30000);
 
   }
 
@@ -182,10 +223,11 @@ $(document).ready(function() {
       var planetData = new Planet(groupData);
 
       // send results to result div for display
-      $.each(planetData, function(key,val) {
-          var planetData = $("#message").html();
-          $("#resultList").append("<li>"+key+": "+val+"</li>");
+      $.each(planetData, function(object, attribute) {
+        var planetData = $("#message").html();
+        $("#resultList").append("<li>"+attribute.label+": "+attribute.value+" "+attribute.unit+"</li>");
       });
+
     }
   }
 
@@ -196,18 +238,19 @@ $(document).ready(function() {
     if (kilometers) { return kilometers*0.62137; }
   }
 
-  function sciNoteToArray (sciNoteValue) {
+  // convert scientific notation to a real value for maths
+  function sciNoteToValue (sciNoteValue) {
     var expArray = sciNoteValue.split(/x|\^|\*/);
-    var array;
+    var value;
 
     // if array has multiple values, someone has used exponential notations (triggered by x, ^, or *)
     if (expArray[1]) {
-      array = expArray[0]*Math.pow(expArray[1], expArray[2]);
+      value = expArray[0]*Math.pow(expArray[1], expArray[2]);
     } else {
-      array = expArray[0];
+      value = expArray[0];
     }
 
-    return array;
+    return value;
 
   }
 
@@ -215,24 +258,55 @@ $(document).ready(function() {
   function Planet (data) {
 
     if (data.planetRadius != 0) {
-      this.diameter = (data.planetRadius*2);
-      this.surfaceArea = (4*Math.PI*Math.pow(data.planetRadius, 2)).toFixed(2);
-      this.volume = ((4/3)*Math.PI*Math.pow(data.planetRadius, 3)).toFixed(2);
-      this.circumference = ((2*Math.PI*data.planetRadius)).toFixed(2);
-      this.comparativeSize = (((data.planetRadius/(earthRadius/1000))*100)).toFixed(2);
+      this.diameter = {
+        'label': 'Diameter',
+        'value': data.planetRadius*2,
+        'unit': 'km'
+      }
+      this.surfaceArea = {
+        'label': 'Surface Area',
+        'value': (4*Math.PI*Math.pow(data.planetRadius, 2)).toFixed(2),
+        'unit': 'sq. km'
+      }
+      this.volume = {
+        'label': 'Volume',
+        'value': ((4/3)*Math.PI*Math.pow(data.planetRadius, 3)).toFixed(2),
+        'unit': 'cu. km'
+      }
+      this.circumference = {
+        'label': 'Circumference',
+        'value': (2*Math.PI*data.planetRadius).toFixed(2),
+        'unit': 'km'
+      }
+      this.comparativeSize = {
+        'label': 'Size as % of Earth',
+        'value': (((data.planetRadius/(earthRadius/1000))*100)).toFixed(2),
+        'unit': '%'
+      }
     }
 
-    if (this.volume != 0 && data.planetMass != 0) {
-      var planetMass = sciNoteToArray(data.planetMass);
-      this.density = planetMass/this.volume;
-
+    if (this.volume.value != 0 && data.planetMass != 0) {
+      var planetMass = sciNoteToValue(data.planetMass);
+      this.density = {
+        'label': 'Density',
+        'value': planetMass/this.volume.value,
+        'unit': 'idklol'
+      }
     }
 
     if (data.planetRadius != 0 && data.planetMass != 0) {
-      var planetMass = sciNoteToArray(data.planetMass);
+      var planetMass = sciNoteToValue(data.planetMass);
       var planetRadiusMeters = data.planetRadius*1000;
-      this.gravity = (((G*planetMass)/Math.pow(planetRadiusMeters, 2)).toFixed(2));
-      this.comparativeGravity = (this.gravity/earthGravity).toFixed(2);
+      this.gravity = {
+        'label': 'Gravity',
+        'value': (((G*planetMass)/Math.pow(planetRadiusMeters, 2)).toFixed(2)),
+        'unit': 'm/s'
+      }
+      this.comparativeGravity = {
+        'label': 'Gravity as % of Earth',
+        'value': ((this.gravity.value/earthGravity)*100).toFixed(2),
+        'unit': '%'
+      }
     }
   }
 
