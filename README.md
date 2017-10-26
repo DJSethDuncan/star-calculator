@@ -2,7 +2,7 @@
 
 A page for gathering and working with interesting planetary data with the end-goal of acquiring interesting data for folks who aren't well-versed in planetary and orbital science. Created primarily because I wanted a page where I could get data easily without having to constantly do math.
 
-http://sethduncan.com/dev/star-calculator/
+http://dev.sethduncan.com/star-calculator/
 
 ### Status ###
 
